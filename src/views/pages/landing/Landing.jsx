@@ -3,70 +3,78 @@ import { Layout, Menu } from "antd";
 import ContentArea from "../../components/ContentArea";
 const { Content, Footer, Sider } = Layout;
 import { StyledTitle } from "./styles";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutThunk } from "../../../state/thunks/UserThunks";
+import { getCurrentUserThunk } from "../../../state/thunks/UserThunks";
+import { UserSelector, UserLoadingSelector } from "../../../state/Selectors";
+import Spinner from "../../components/Spinner";
 const Landing = () => {
+  const dispatch = useDispatch();
+  const [currentTab, setCurrentTab] = useState(1);
+  const user = useSelector((state) => UserSelector(state));
+  const userLoading = useSelector((state) => UserLoadingSelector(state));
+
+  useEffect(() => {
+    if (!Object.keys(user).length) dispatch(getCurrentUserThunk());
+  }, [dispatch, user]);
   const menuItems = [
     {
       key: "1",
       icon: <UserOutlined />,
       label: "User",
-      action: () => console.log("Clicked Item 1"),
+      action: () => setCurrentTab(1),
     },
     {
       key: "2",
       icon: <FileAddOutlined />,
       label: "Create Parcel",
-      action: () => console.log("Clicked Item 2"),
+      action: () => setCurrentTab(2),
     },
     {
       key: "3",
       icon: <FileOutlined />,
       label: "View Parcels",
-      action: () => console.log("Clicked Item 3"),
+      action: () => setCurrentTab(3),
     },
     {
       key: "4",
       icon: <UserOutlined />,
       label: "Logout",
-      //  action: (dispatch) => dispatch(logout()),
+      action: () => dispatch(logoutThunk()),
     },
   ];
 
   return (
-    <Layout>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
-        <StyledTitle style={{ color: "white" }} level={4}>
-          Rapid Routes
-        </StyledTitle>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          {menuItems.map(({ key, icon, label, action }) => (
-            <Menu.Item key={key} icon={icon} onClick={() => action()}>
-              {label}
-            </Menu.Item>
-          ))}
-        </Menu>
-      </Sider>
-      <Layout>
-        <Content>
-          <ContentArea selectedTab={1} />
-        </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Rapid routes ©2023 Created by Omar Elgaml
-        </Footer>
+    <>
+      {userLoading && <Spinner />}
+      <Layout style={{ minHeight: "98vh" }}>
+        <Sider breakpoint="lg" collapsedWidth="0">
+          <StyledTitle style={{ color: "white" }} level={4}>
+            Rapid Routes
+          </StyledTitle>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+            {menuItems.map(({ key, icon, label, action }) => (
+              <Menu.Item key={key} icon={icon} onClick={() => action()}>
+                {label}
+              </Menu.Item>
+            ))}
+          </Menu>
+        </Sider>
+        <Layout>
+          <Content>
+            <ContentArea selectedTab={currentTab} />
+          </Content>
+          <Footer
+            style={{
+              textAlign: "center",
+            }}
+          >
+            Rapid routes ©2023 Created by Omar Elgaml
+          </Footer>
+        </Layout>
       </Layout>
-    </Layout>
+    </>
   );
 };
 export default Landing;

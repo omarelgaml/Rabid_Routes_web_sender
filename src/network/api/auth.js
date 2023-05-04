@@ -8,22 +8,15 @@ export const refreshToken = async () => {
 export const register = async (body) => {
   try {
     const response = await axios.post("/auth/register", body);
-    message.success(response.data.message);
+    await message.success(response.data.message);
     window.location.href = "/login";
   } catch (err) {
     message.error(err.response.data.message);
   }
 };
 export const login = async (body) => {
-  try {
-    const response = await axios.post("/auth/login", body);
-
-    message.success(response.data.message);
-
-    return response.data;
-  } catch (err) {
-    message.error(err.response.data.message);
-  }
+  const response = await axios.post("/auth/login", body);
+  return response.data;
 };
 export const logout = async () => {
   try {
