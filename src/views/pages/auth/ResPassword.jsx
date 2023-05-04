@@ -1,17 +1,25 @@
 import { Form, Input } from "antd";
-
 import {
   StyledContainer,
   StyledForm,
   StylesButton,
   StyledTitle,
 } from "./styles";
-
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { resetPassword } from "../../../network/api/auth";
 const ResetPasswordPage = () => {
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const location = useLocation();
+  const [token, setToken] = useState("");
+  const onFinish = async (values) => {
+    await resetPassword({ password: values.password, token });
   };
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const inputToken = queryParams.get("token");
+    setToken(inputToken);
+  }, [location]);
   return (
     <StyledContainer>
       <StyledForm

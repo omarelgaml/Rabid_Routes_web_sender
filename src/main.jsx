@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import { Provider } from "react-redux";
+import { Provider } from "react-redux";
 import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -9,6 +9,8 @@ import LoginPage from "./views/pages/auth/Login.jsx";
 import ResetPasswordEmailPage from "./views/pages/auth/ResPassEmail.jsx";
 import ResetPasswordPage from "./views/pages/auth/ResPassword.jsx";
 import Landing from "./views/pages/landing/Landing.jsx";
+import { store } from "./state/Store.js";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +37,7 @@ const router = createBrowserRouter([
     element: <ResetPasswordEmailPage />,
   },
   {
-    path: "/reset-password/:token",
+    path: "/reset-password",
     element: <ResetPasswordPage />,
   },
   {
@@ -44,9 +46,9 @@ const router = createBrowserRouter([
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <Provider>
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-  //</Provider>
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>
 );

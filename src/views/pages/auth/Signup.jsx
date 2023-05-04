@@ -14,7 +14,7 @@ const SignupPage = () => {
       firstName: values.firstName,
       lastName: values.lastName,
       phoneNumber: values.phoneNumber,
-      password: values.phoneNumber,
+      password: values.password,
       title: values.title,
       role: "6453a6c348784fc017e3785b",
     };

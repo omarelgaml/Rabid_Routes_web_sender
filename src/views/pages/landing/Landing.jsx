@@ -1,17 +1,38 @@
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
-import React from "react";
-const { Header, Content, Footer, Sider } = Layout;
+import { FileOutlined, UserOutlined, FileAddOutlined } from "@ant-design/icons";
+import { Layout, Menu } from "antd";
+import ContentArea from "../../components/ContentArea";
+const { Content, Footer, Sider } = Layout;
+import { StyledTitle } from "./styles";
 const Landing = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const menuItems = [
+    {
+      key: "1",
+      icon: <UserOutlined />,
+      label: "User",
+      action: () => console.log("Clicked Item 1"),
+    },
+    {
+      key: "2",
+      icon: <FileAddOutlined />,
+      label: "Create Parcel",
+      action: () => console.log("Clicked Item 2"),
+    },
+    {
+      key: "3",
+      icon: <FileOutlined />,
+      label: "View Parcels",
+      action: () => console.log("Clicked Item 3"),
+    },
+    {
+      key: "4",
+      icon: <UserOutlined />,
+      label: "Logout",
+      //  action: (dispatch) => dispatch(logout()),
+    },
+  ];
+
   return (
-    <Layout style={{ height: "98vh" }}>
+    <Layout>
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -22,51 +43,27 @@ const Landing = () => {
           console.log(collapsed, type);
         }}
       >
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={[
-            UserOutlined,
-            VideoCameraOutlined,
-            UploadOutlined,
-            UserOutlined,
-          ].map((icon, index) => ({
-            key: String(index + 1),
-            icon: React.createElement(icon),
-            label: `nav ${index + 1}`,
-          }))}
-        />
+        <StyledTitle style={{ color: "white" }} level={4}>
+          Rapid Routes
+        </StyledTitle>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+          {menuItems.map(({ key, icon, label, action }) => (
+            <Menu.Item key={key} icon={icon} onClick={() => action()}>
+              {label}
+            </Menu.Item>
+          ))}
+        </Menu>
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
-        <Content
-          style={{
-            margin: "24px 16px 0",
-          }}
-        >
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-            }}
-          >
-            content
-          </div>
+        <Content>
+          <ContentArea selectedTab={1} />
         </Content>
         <Footer
           style={{
             textAlign: "center",
           }}
         >
-          Ant Design ©2023 Created by Ant UED
+          Rapid routes ©2023 Created by Omar Elgaml
         </Footer>
       </Layout>
     </Layout>

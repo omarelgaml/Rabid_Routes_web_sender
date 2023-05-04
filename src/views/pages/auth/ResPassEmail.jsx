@@ -6,8 +6,13 @@ import {
   StylesButton,
   StyledTitle,
 } from "./styles";
+import { resetPassEmail } from "../../../network/api/auth";
 const ResetPasswordEmailPage = () => {
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    await resetPassEmail({
+      redirect: "http://localhost:8000/reset-password",
+      email: values.email,
+    });
     console.log("Received values of form: ", values);
   };
 

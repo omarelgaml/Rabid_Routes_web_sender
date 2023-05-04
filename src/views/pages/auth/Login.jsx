@@ -8,9 +8,13 @@ import {
   SignupLink,
   ForgotPasswordLink,
 } from "./styles";
-
+import { useDispatch } from "react-redux";
+import { loginThunk } from "../../../state/thunks/UserThunks";
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const onFinish = (values) => {
+    const body = { email: values.email, password: values.password };
+    dispatch(loginThunk(body));
     console.log("Received values of form: ", values);
   };
 

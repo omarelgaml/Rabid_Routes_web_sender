@@ -1,6 +1,6 @@
 import axios from "axios";
 import { refreshToken } from "../api/auth";
-import { message } from "antd";
+// import { message } from "antd";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api/",
@@ -28,11 +28,11 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response && error.response.status === 500) {
-      message.error("Oops, un error happened");
+    // if (error.response && error.response.status === 500) {
+    //   message.error("Oops, un error happened");
 
-      return;
-    }
+    //   return;
+    // }
 
     if (originalRequest._retry || error.response.status !== 401) throw error;
 
