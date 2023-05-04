@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
 import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -8,10 +8,11 @@ import Signup from "./views/pages/auth/Signup.jsx";
 import LoginPage from "./views/pages/auth/Login.jsx";
 import ResetPasswordEmailPage from "./views/pages/auth/ResPassEmail.jsx";
 import ResetPasswordPage from "./views/pages/auth/ResPassword.jsx";
+import Landing from "./views/pages/landing/Landing.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LoginPage />,
+    element: <Landing />,
     errorElement: (
       <Result
         status="404"
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/reset-password/:token",
     element: <ResetPasswordPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -1,22 +1,11 @@
-import { Form, Input, Button, Typography } from "antd";
-const { Title } = Typography;
-import styled from "styled-components";
+import { Form, Input } from "antd";
 
-const ResetPasswordContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const ResetPasswordForm = styled(Form)`
-  max-width: 400px;
-  width: 100%;
-`;
-
-const ResetPasswordButton = styled(Button)`
-  width: 100%;
-`;
+import {
+  StyledContainer,
+  StyledForm,
+  StylesButton,
+  StyledTitle,
+} from "./styles";
 
 const ResetPasswordPage = () => {
   const onFinish = (values) => {
@@ -24,15 +13,15 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <ResetPasswordContainer>
-      <ResetPasswordForm
+    <StyledContainer>
+      <StyledForm
         name="reset-password"
         onFinish={onFinish}
         initialValues={{
           remember: true,
         }}
       >
-        <Title>Reset Password</Title>
+        <StyledTitle>Reset Password</StyledTitle>
         <Form.Item
           name="password"
           rules={[
@@ -70,12 +59,12 @@ const ResetPasswordPage = () => {
           <Input.Password placeholder="Confirm New Password" />
         </Form.Item>
         <Form.Item>
-          <ResetPasswordButton type="primary" htmlType="submit">
+          <StylesButton type="primary" htmlType="submit">
             Reset Password
-          </ResetPasswordButton>
+          </StylesButton>
         </Form.Item>
-      </ResetPasswordForm>
-    </ResetPasswordContainer>
+      </StyledForm>
+    </StyledContainer>
   );
 };
 

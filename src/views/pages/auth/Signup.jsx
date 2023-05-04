@@ -1,33 +1,33 @@
-import { Form, Input, Button, Typography } from "antd";
-const { Title } = Typography;
-import styled from "styled-components";
+import { Form, Input } from "antd";
 
-const SignupContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 50px;
-`;
-
-const SignupForm = styled(Form)`
-  max-width: 400px;
-  width: 100%;
-`;
-
-const SignupButton = styled(Button)`
-  width: 100%;
-`;
-
+import {
+  SignupContainer,
+  StyledForm,
+  StylesButton,
+  StyledTitle,
+} from "./styles";
+import { register } from "../../../network/api/auth";
 const SignupPage = () => {
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    const body = {
+      email: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phoneNumber: values.phoneNumber,
+      password: values.phoneNumber,
+      title: values.title,
+      role: "6453a6c348784fc017e3785b",
+    };
+
+    await register(body);
+
     console.log("Received values of form: ", values);
   };
 
   return (
     <SignupContainer>
-      <Title>Welcome to Rapid Routes!</Title>
-      <SignupForm
+      <StyledTitle>Welcome to Rapid Routes!</StyledTitle>
+      <StyledForm
         name="signup"
         onFinish={onFinish}
         initialValues={{
@@ -122,11 +122,11 @@ const SignupPage = () => {
           <Input.Password placeholder="Confirm Password" />
         </Form.Item>
         <Form.Item>
-          <SignupButton type="primary" htmlType="submit">
+          <StylesButton type="primary" htmlType="submit">
             Sign Up
-          </SignupButton>
+          </StylesButton>
         </Form.Item>
-      </SignupForm>
+      </StyledForm>
     </SignupContainer>
   );
 };

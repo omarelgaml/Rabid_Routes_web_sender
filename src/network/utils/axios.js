@@ -1,14 +1,15 @@
 import axios from "axios";
+import { refreshToken } from "../api/auth";
+import { message } from "antd";
 
 const api = axios.create({
-  baseURL: "https://api.example.com",
+  baseURL: "http://localhost:3000/api/",
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-async function refreshToken() {}
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
@@ -27,11 +28,13 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    if (error.response && error.response.status === 500) {
+      message.error("Oops, un error happened");
 
-    // If the request has already been retried or the error is not related to token expiration, throw the error
-    if (originalRequest._retry || error.response.status !== 401) {
-      throw error;
+      return;
     }
+
+    if (originalRequest._retry || error.response.status !== 401) throw error;
 
     originalRequest._retry = true;
 

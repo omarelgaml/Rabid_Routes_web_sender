@@ -1,35 +1,13 @@
-import { Form, Input, Button, Typography } from "antd";
-const { Title } = Typography;
-import styled from "styled-components";
+import { Form, Input } from "antd";
 import { Link } from "react-router-dom";
-
-const LoginContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 97vh;
-`;
-
-const LoginForm = styled(Form)`
-  max-width: 400px;
-  width: 100%;
-`;
-
-const LoginButton = styled(Button)`
-  width: 100%;
-  margin-top: 10px;
-`;
-const StylesTitle = styled(Title)`
-  text-align: center;
-`;
-
-const SignupLink = styled.a`
-  float: right;
-`;
-
-const ForgotPasswordLink = styled.a`
-  float: left;
-`;
+import {
+  StyledContainer,
+  StyledForm,
+  StylesButton,
+  StyledTitle,
+  SignupLink,
+  ForgotPasswordLink,
+} from "./styles";
 
 const LoginPage = () => {
   const onFinish = (values) => {
@@ -37,15 +15,15 @@ const LoginPage = () => {
   };
 
   return (
-    <LoginContainer>
-      <LoginForm
+    <StyledContainer>
+      <StyledForm
         name="login"
         onFinish={onFinish}
         initialValues={{
           remember: true,
         }}
       >
-        <StylesTitle level={2}>Login to Rapid Routes</StylesTitle>
+        <StyledTitle level={2}>Login to Rapid Routes</StyledTitle>
         <Form.Item
           name="email"
           rules={[
@@ -75,18 +53,18 @@ const LoginPage = () => {
           <Input.Password placeholder="Password" />
         </Form.Item>
         <Form.Item>
-          <LoginButton type="primary" htmlType="submit">
+          <StylesButton type="primary" htmlType="submit">
             Login
-          </LoginButton>
-          <Link to="/signup">
+          </StylesButton>
+          <Link to="/register">
             <SignupLink>Signup</SignupLink>
           </Link>
-          <Link to="/">
+          <Link to="/reset-password-email">
             <ForgotPasswordLink href="#">Forgot Password?</ForgotPasswordLink>
           </Link>
         </Form.Item>
-      </LoginForm>
-    </LoginContainer>
+      </StyledForm>
+    </StyledContainer>
   );
 };
 
