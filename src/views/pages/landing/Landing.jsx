@@ -1,4 +1,9 @@
-import { FileOutlined, UserOutlined, FileAddOutlined } from "@ant-design/icons";
+import {
+  FileOutlined,
+  UserOutlined,
+  FileAddOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import ContentArea from "../../components/ContentArea";
 const { Content, Footer, Sider } = Layout;
@@ -39,7 +44,7 @@ const Landing = () => {
     },
     {
       key: "4",
-      icon: <UserOutlined />,
+      icon: <LogoutOutlined />,
       label: "Logout",
       action: () => dispatch(logoutThunk()),
     },

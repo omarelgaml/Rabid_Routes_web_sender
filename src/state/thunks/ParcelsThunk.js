@@ -24,7 +24,6 @@ export const editParcelThunk = createAsyncThunk(
   "parcels/editParcelThunk",
   async (body, { rejectWithValue }) => {
     try {
-      console.log(body);
       const res = await editParcel(body.body, body.id);
 
       return res;

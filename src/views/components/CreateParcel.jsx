@@ -34,7 +34,7 @@ const CreateParcelPage = (props) => {
       const body = { pickupAddress, dropoffAddress, senderNotes };
       if (parcel) {
         //update
-        console.log(parcel);
+
         const id = parcel._id;
         await dispatch(editParcelThunk({ body, id }));
         await dispatch(getParcelsThunk());
