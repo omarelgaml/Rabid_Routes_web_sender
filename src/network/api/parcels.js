@@ -1,11 +1,12 @@
 import axios from "../utils/axios";
-import { message } from "antd";
-export const createParcel = async (body) => {
-  try {
-    const response = await axios.post("/parcels", body);
 
-    return response.data;
-  } catch (err) {
-    message.error(err.response.data.message);
-  }
+export const createParcel = async (body) => {
+  const response = await axios.post("/parcels", body);
+  console.log(response);
+  return response.data;
+};
+export const getsParcels = async (body) => {
+  const response = await axios.get("/parcels/sender", body);
+  console.log(response);
+  return response.data;
 };

@@ -14,3 +14,6 @@ export const StyledSpinner = styled.div`
     color: #fff;
   }
 `;
+export const ParcelsCardsContainer = styled.div`
+  padding: 20px;
+`;

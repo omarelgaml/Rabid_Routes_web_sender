@@ -1,23 +1,43 @@
-import { useState } from "react";
-import { Form, Input, Button, Space, Row, Col } from "antd";
+import { Form, Input, Button, Space, Row, Col, message } from "antd";
+import {
+  createParcelThunk,
+  getParcelsThunk,
+} from "../../state/thunks/ParcelsThunk";
+import { useDispatch, useSelector } from "react-redux";
+import { ParcelsLoadingSelector } from "../../state/Selectors";
+import Spinner from "./Spinner";
 
 const CreateParcelPage = () => {
   const [form] = Form.useForm();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => ParcelsLoadingSelector(state));
 
-  const handleFormSubmit = (values) => {
-    console.log("Form values:", values);
-    setIsLoading(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      form.resetFields();
-    }, 2000);
+  const handleFormSubmit = async (values) => {
+    const dropoffAddress = {
+      country: values.dropOffCountry,
+      city: values.dropOffCity,
+      street: values.dropOffStreet,
+      buildingNumber: values.dropOffBuildingNumber,
+      floor: values.dropOffFloorNumber,
+    };
+    const pickupAddress = {
+      country: values.pickupCountry,
+      city: values.pickupCity,
+      street: values.pickupStreet,
+      buildingNumber: values.pickupBuildingNumber,
+      floor: values.pickupFloorNumber,
+    };
+    const senderNotes = values.Notes;
+    const body = { pickupAddress, dropoffAddress, senderNotes };
+    await dispatch(createParcelThunk(body));
+    await dispatch(getParcelsThunk());
+    message.success("Parcel Created");
+    form.resetFields();
   };
 
   return (
     <div style={{ padding: 24 }}>
+      {loading && Spinner}
       <h1>Create Parcel</h1>
 
       <Form
@@ -160,7 +180,7 @@ const CreateParcelPage = () => {
         </Row>
         <Form.Item>
           <Space>
-            <Button type="primary" htmlType="submit" loading={isLoading}>
+            <Button type="primary" htmlType="submit" loading={loading}>
               Create Parcel
             </Button>
             <Button htmlType="button" onClick={() => form.resetFields()}>
