@@ -50,4 +50,12 @@ export const resetPassword = async (body) => {
     message.error(err.response.data.message);
   }
 };
-//http://localhost:3000/reset-password
+export const getPlatFormRole = async () => {
+  try {
+    const response = await axios.get("/auth/role/1");
+
+    return response.data;
+  } catch (err) {
+    message.error(err.response.data.message);
+  }
+};
