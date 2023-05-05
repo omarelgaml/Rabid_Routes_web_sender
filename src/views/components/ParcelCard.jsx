@@ -1,9 +1,19 @@
 /* eslint-disable react/prop-types */
-import { Card, Row, Col, Typography, Button } from "antd";
+import { Card, Row, Col, Typography, Divider, message } from "antd";
 import styled from "styled-components";
 const { Title, Text } = Typography;
-import { Divider } from "antd";
-const ParcelCard = ({ parcel }) => {
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteParcelThunk,
+  getParcelsThunk,
+} from "../../state/thunks/ParcelsThunk";
+import { ParcelsLoadingSelector } from "../../state/Selectors";
+import { DeleteButton } from "./styles";
+const ParcelCard = ({ parcel, edit }) => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => ParcelsLoadingSelector(state));
+
   const {
     dropoffAddress,
     pickupAddress,
@@ -14,8 +24,13 @@ const ParcelCard = ({ parcel }) => {
     datePicked,
     dateDelivered,
     status,
+    _id,
   } = parcel;
-
+  const delelteClicked = async () => {
+    await dispatch(deleteParcelThunk(_id));
+    await dispatch(getParcelsThunk());
+    await message.success("Parcel Deleted");
+  };
   const StyledCard = styled(Card)`
     width: 100%;
     margin-bottom: 40px;
@@ -102,10 +117,26 @@ const ParcelCard = ({ parcel }) => {
 
           <Divider />
           <StyledRow gutter={[16, 16]}>
-            <Col span={3} offset={21}>
-              <Button type="primary" danger htmlType="submit" loading={false}>
-                Delete Parcel
-              </Button>
+            <Col span={2} offset={20}>
+              <DeleteButton
+                onClick={() => edit(parcel)}
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+              >
+                Edit
+              </DeleteButton>
+            </Col>
+            <Col span={2}>
+              <DeleteButton
+                onClick={() => delelteClicked()}
+                type="primary"
+                danger
+                htmlType="submit"
+                loading={loading}
+              >
+                Delete
+              </DeleteButton>
             </Col>
           </StyledRow>
         </StyledCard>

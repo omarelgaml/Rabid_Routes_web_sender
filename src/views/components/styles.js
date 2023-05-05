@@ -1,3 +1,4 @@
+import { Button, Select } from "antd";
 import styled from "styled-components";
 export const StyledSpinner = styled.div`
   position: fixed;
@@ -15,5 +16,18 @@ export const StyledSpinner = styled.div`
   }
 `;
 export const ParcelsCardsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const ParcelPageContainer = styled.div`
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+export const DeleteButton = styled(Button)`
+  width: 100%;
+`;
+export const StyledSelect = styled(Select)`
+  width: 100%;
+  margin-bottom: 40px;
 `;

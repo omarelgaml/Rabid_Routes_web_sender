@@ -1,10 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getParcelsThunk, createParcelThunk } from "../thunks/ParcelsThunk";
+import {
+  getParcelsThunk,
+  createParcelThunk,
+  deleteParcelThunk,
+  getStatusesThunk,
+  editParcelThunk,
+} from "../thunks/ParcelsThunk";
 import { message } from "antd";
 
 const initialState = {
   parcels: null,
   loading: false,
+  statuses: [],
 };
 
 export const userSlice = createSlice({
@@ -25,6 +32,20 @@ export const userSlice = createSlice({
       state.loading = false;
       message.error(action.payload);
     });
+
+    builder.addCase(getStatusesThunk.fulfilled, (state, action) => {
+      state.loading = false;
+
+      state.statuses = action.payload.statuses;
+    });
+
+    builder.addCase(getStatusesThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getStatusesThunk.rejected, (state, action) => {
+      state.loading = false;
+      message.error(action.payload);
+    });
     /*************** */
 
     builder.addCase(createParcelThunk.pending, (state) => {
@@ -32,6 +53,21 @@ export const userSlice = createSlice({
     });
     builder.addCase(createParcelThunk.rejected, (state, action) => {
       state.loading = false;
+      message.error(action.payload);
+    });
+    builder.addCase(editParcelThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(editParcelThunk.rejected, (state, action) => {
+      state.loading = false;
+      message.error(action.payload);
+    });
+    builder.addCase(deleteParcelThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteParcelThunk.rejected, (state, action) => {
+      state.loading = false;
+
       message.error(action.payload);
     });
   },

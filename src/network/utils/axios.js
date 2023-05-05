@@ -29,11 +29,12 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response) {
       const originalRequest = error.config;
-      // if (error.response && error.response.status === 500) {
-      //   message.error("Oops, un error happened");
+      if (error.response && error.response.status === 500) {
+        await message.error("Oops, un error happened");
+        window.location.href = "/login";
 
-      //   return;
-      // }
+        return;
+      }
 
       if (originalRequest._retry || error.response.status !== 401) throw error;
 

@@ -1,38 +1,55 @@
+/* eslint-disable react/prop-types */
 import { Form, Input, Button, Space, Row, Col, message } from "antd";
 import {
   createParcelThunk,
+  editParcelThunk,
   getParcelsThunk,
 } from "../../state/thunks/ParcelsThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { ParcelsLoadingSelector } from "../../state/Selectors";
 import Spinner from "./Spinner";
 
-const CreateParcelPage = () => {
+const CreateParcelPage = (props) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const loading = useSelector((state) => ParcelsLoadingSelector(state));
-
+  const { parcel, editDone } = props;
   const handleFormSubmit = async (values) => {
-    const dropoffAddress = {
-      country: values.dropOffCountry,
-      city: values.dropOffCity,
-      street: values.dropOffStreet,
-      buildingNumber: values.dropOffBuildingNumber,
-      floor: values.dropOffFloorNumber,
-    };
-    const pickupAddress = {
-      country: values.pickupCountry,
-      city: values.pickupCity,
-      street: values.pickupStreet,
-      buildingNumber: values.pickupBuildingNumber,
-      floor: values.pickupFloorNumber,
-    };
-    const senderNotes = values.Notes;
-    const body = { pickupAddress, dropoffAddress, senderNotes };
-    await dispatch(createParcelThunk(body));
-    await dispatch(getParcelsThunk());
-    message.success("Parcel Created");
-    form.resetFields();
+    try {
+      const dropoffAddress = {
+        country: values.dropOffCountry,
+        city: values.dropOffCity,
+        street: values.dropOffStreet,
+        buildingNumber: values.dropOffBuildingNumber,
+        floor: values.dropOffFloorNumber,
+      };
+      const pickupAddress = {
+        country: values.pickupCountry,
+        city: values.pickupCity,
+        street: values.pickupStreet,
+        buildingNumber: values.pickupBuildingNumber,
+        floor: values.pickupFloorNumber,
+      };
+      const senderNotes = values.Notes;
+      const body = { pickupAddress, dropoffAddress, senderNotes };
+      if (parcel) {
+        //update
+        console.log(parcel);
+        const id = parcel._id;
+        await dispatch(editParcelThunk({ body, id }));
+        await dispatch(getParcelsThunk());
+        message.success("Parcel Updated");
+
+        editDone();
+      } else {
+        await dispatch(createParcelThunk(body));
+        await dispatch(getParcelsThunk());
+        message.success("Parcel Created");
+      }
+      form.resetFields();
+    } catch (Err) {
+      console.log(Err);
+    }
   };
 
   return (
@@ -45,6 +62,21 @@ const CreateParcelPage = () => {
         onFinish={handleFormSubmit}
         layout="vertical"
         autoComplete="off"
+        initialValues={
+          parcel && {
+            dropOffCountry: parcel.dropoffAddress.country,
+            dropOffCity: parcel.dropoffAddress.city,
+            dropOffStreet: parcel.dropoffAddress.street,
+            dropOffBuildingNumber: parcel.dropoffAddress.buildingNumber,
+            dropOffFloorNumber: parcel.dropoffAddress.floor,
+            pickupCountry: parcel.pickupAddress.country,
+            pickupCity: parcel.pickupAddress.city,
+            pickupStreet: parcel.pickupAddress.street,
+            pickupBuildingNumber: parcel.pickupAddress.buildingNumber,
+            pickupFloorNumber: parcel.pickupAddress.floor,
+            Notes: parcel.senderNotes,
+          }
+        }
       >
         <h2>Pick-up Address</h2>
         <Row gutter={[16, 16]}>
@@ -181,7 +213,7 @@ const CreateParcelPage = () => {
         <Form.Item>
           <Space>
             <Button type="primary" htmlType="submit" loading={loading}>
-              Create Parcel
+              {`${parcel ? "Edit" : " Create"} Parcel`}
             </Button>
             <Button htmlType="button" onClick={() => form.resetFields()}>
               Reset
