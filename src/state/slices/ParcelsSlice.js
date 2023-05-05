@@ -55,6 +55,15 @@ export const userSlice = createSlice({
       state.loading = false;
       message.error(action.payload);
     });
+    builder.addCase(createParcelThunk.fulfilled, async () => {
+      await message.success("Parcel Created");
+    });
+    builder.addCase(editParcelThunk.fulfilled, async () => {
+      await message.success("Parcel Updated");
+    });
+    builder.addCase(deleteParcelThunk.fulfilled, async () => {
+      await message.success("Parcel Deleted");
+    });
     builder.addCase(editParcelThunk.pending, (state) => {
       state.loading = true;
     });

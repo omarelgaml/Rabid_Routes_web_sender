@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Card, Row, Col, Typography, Divider, message } from "antd";
+import { Card, Row, Col, Typography, Divider } from "antd";
 import styled from "styled-components";
 const { Title, Text } = Typography;
 
@@ -29,7 +29,6 @@ const ParcelCard = ({ parcel, edit }) => {
   const delelteClicked = async () => {
     await dispatch(deleteParcelThunk(_id));
     await dispatch(getParcelsThunk());
-    await message.success("Parcel Deleted");
   };
   const StyledCard = styled(Card)`
     width: 100%;
@@ -72,7 +71,11 @@ const ParcelCard = ({ parcel, edit }) => {
           <StyledRow gutter={[16, 16]}>
             <Col span={12}>
               <Text style={labelStyle}>Biker Name:</Text>
-              <div>{biker ? biker.name : "Not assigned"}</div>
+              <div>
+                {biker
+                  ? `${biker.firstName} ${biker.lastName}`
+                  : "Not assigned"}
+              </div>
             </Col>
             <Col span={12}>
               <Text style={labelStyle}>Biker Notes:</Text>

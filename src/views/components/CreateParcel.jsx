@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Form, Input, Button, Space, Row, Col, message } from "antd";
+import { Form, Input, Button, Space, Row, Col } from "antd";
 import {
   createParcelThunk,
   editParcelThunk,
@@ -38,13 +38,11 @@ const CreateParcelPage = (props) => {
         const id = parcel._id;
         await dispatch(editParcelThunk({ body, id }));
         await dispatch(getParcelsThunk());
-        message.success("Parcel Updated");
 
         editDone();
       } else {
         await dispatch(createParcelThunk(body));
         await dispatch(getParcelsThunk());
-        message.success("Parcel Created");
       }
       form.resetFields();
     } catch (Err) {

@@ -11,7 +11,7 @@ export const editParcel = async (body, id) => {
   return response.data;
 };
 export const getsParcels = async (body) => {
-  const response = await axios.get("/parcels/sender", body);
+  const response = await axios.get("/parcels", body);
   return response.data;
 };
 export const deleteParcel = async (id) => {
