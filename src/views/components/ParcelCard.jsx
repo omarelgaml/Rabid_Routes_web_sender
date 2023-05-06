@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { Card, Row, Col, Typography, Divider } from "antd";
-import styled from "styled-components";
+import { Col, Typography, Divider } from "antd";
+
 const { Title, Text } = Typography;
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import {
   getParcelsThunk,
 } from "../../state/thunks/ParcelsThunk";
 import { ParcelsLoadingSelector } from "../../state/Selectors";
-import { DeleteButton } from "./styles";
+import { DeleteButton, StyledCard, StyledRow, labelStyle } from "./styles";
 const ParcelCard = ({ parcel, edit }) => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => ParcelsLoadingSelector(state));
@@ -29,19 +29,6 @@ const ParcelCard = ({ parcel, edit }) => {
   const delelteClicked = async () => {
     await dispatch(deleteParcelThunk(_id));
     await dispatch(getParcelsThunk());
-  };
-  const StyledCard = styled(Card)`
-    width: 100%;
-    margin-bottom: 40px;
-    boarder-radius: 10px;
-  `;
-
-  const StyledRow = styled(Row)`
-    margin-bottom: 20px;
-  `;
-
-  const labelStyle = {
-    fontWeight: "bold",
   };
 
   const formatDateTime = (dateTime) => {
@@ -112,9 +99,13 @@ const ParcelCard = ({ parcel, edit }) => {
           </StyledRow>
           <Divider />
           <StyledRow gutter={[16, 16]}>
-            <Col span={24}>
+            <Col span={12}>
               <Text style={labelStyle}>Status:</Text>
               <div>{status.name}</div>
+            </Col>
+            <Col span={12}>
+              <Text style={labelStyle}>Biker phone number:</Text>
+              <div>{biker ? biker.phoneNumber : "--"}</div>
             </Col>
           </StyledRow>
 
