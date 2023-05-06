@@ -16,13 +16,14 @@ function ContentArea(props) {
     setEditParcelMode(false);
     setParcelToEdit();
   };
+  const { selectedTab } = props;
+
   useEffect(() => {
-    if (selectedTab !== 3) {
+    if (selectedTab && selectedTab !== 3) {
       doneEditing();
     }
   }, [selectedTab]);
 
-  const { selectedTab } = props;
   if (selectedTab === 3 && !editParcelMode) {
     return <ShowParcels editClicked={(parcel) => parcelClickEdit(parcel)} />;
   } else if (selectedTab === 3 && editParcelMode) {
